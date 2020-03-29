@@ -1,5 +1,5 @@
 
-window.apiRoot = '..'
+window.apiRoot = '.'
 
 
 export const apiPathList = {
