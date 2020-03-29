@@ -25,10 +25,24 @@ const homeModule = [
         }
     }
 ]
+
+
+import join from '@/pages/join.vue'
+const joinModule = [
+    {
+        path: '/join',
+        name: 'join',
+        component: join,
+        meta: {
+            requiresAuth:false,//该页面不需要登录
+        }
+    }
+]
 /**
  * 重定向
  */
 export default [
     {path: '/', redirect: '/homepage'},
     ...homeModule,
+    ...joinModule,
 ]
