@@ -1,5 +1,5 @@
 <template>
-    <div class="app-1">
+    <div>
         <router-view/>
     </div>
 </template>
@@ -11,7 +11,4 @@ export default {
 </script>
 
 <style>
-    .app-1{
-        position: relative;
-    }
 </style>

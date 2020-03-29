@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "jssha": "^2.4.0",
     "localscrollfix": "^2.2.0",
     "vant": "^2.5.8",
     "vue": "^2.5.2",

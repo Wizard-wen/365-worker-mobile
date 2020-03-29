@@ -1,16 +1,26 @@
 <template>
-    <Hog-page>
-        <div class="home">
-            <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-                <van-swipe-item
-                    v-for="(image, index) in adPosition.S000001.resource"
-                    :key="index">
-                    <van-image :src="image.url" height="2rem" width="100%" />
-                </van-swipe-item>
-            </van-swipe>
-        </div>
-        <Hog-footer></Hog-footer>
-    </Hog-page>
+    <div >
+        <van-nav-bar
+        :fixed="true"
+        title="订单"/>
+        <van-list
+            class="order-list"
+            v-model="loading"
+            :isLast="isLast"
+            isLast-text="没有更多了"
+            @load="onLoad">
+            <van-panel 
+                @click="goOrderDetailPage(item)"
+                class="order-panel"
+                :title="item.work_type" 
+                :desc="item.service_duration" 
+                status="待签约"
+                v-for="(item, index) in orderList"
+                :key="index">
+                <div class="order_details">{{item.order_details}}</div>
+            </van-panel>
+        </van-list>
+    </div>
 </template>
 
 <script>
@@ -18,47 +28,73 @@
 
 import {homeService} from '@/service/index.js'
 
-import Vue from 'vue'
 export default {
     data(){
         return {
-            adPosition:{
-                S000001: {},
-                S000002: {},
-                S000003: {},
-                S000004: {},
-                S000005: {},
-            },
+            loading:false,
+            lastId: 0,
+            isLast: false,
+            orderList: [],
+            pageNumber: 10,
         }
     },
     methods:{
+        async onLoad() {
+            if (!this.isLast) {
+                await this.getOrderList(this.lastId)
+                // 加载状态结束
+                this.loading = false;
 
+                // // 数据全部加载完成
+                // if (this.isLast) {
+                //     this.finished = true;
+                // }
+            } else {
+                // 加载状态结束
+                this.loading = false;
+            }
+        },
+        async getOrderList(){
+            let sendForm = {
+                lastId: this.lastId,
+                pageNumber: this.pageNumber,
+            }
+            await homeService.getOrderList(sendForm).then(data =>{
+
+                this.orderList = this.orderList.concat(data.data.data.data)
+                this.lastId = data.data.data.lastId
+                this.isLast = data.data.data.isLast
+            }).catch(error => {
+                throw error
+            })
+        },
+        goOrderDetailPage(param){
+            this.$router.push({
+                path: '/orderDetail',
+                query: {
+                    id: param.id
+                }
+            })
+        }
     },
     async mounted(){
-        await homeService.getAdPosition().then(data =>{
-            this.adPosition = {
-                ...data.data.data
-            }
-            // console.log(data)
-            // Vue.set(this.adPosition,'S000001',data.data.data.S000001)
-        }).catch(error => {
-            throw error
-        })
+        // await this.onLoad()
     }
 }
 </script>
 
 <style scoped lang="scss">
-.home{
-    .my-swipe .van-swipe-item {
-        color: #fff;
-        font-size: 20px;
-        // line-height: 150px;
-        height: 2rem;
-        text-align: center;
-        background-color: #39a9ed;
+    .order-list{
+        padding-top: .5rem;
     }
-}
+    .order-panel{
+        margin: .2rem;
+        .order_details{
+            padding: .2rem;
+        }
+    }
+    
+// }
 </style>
 
 
