@@ -19,6 +19,10 @@ export const joinService = {
     checkWorkerPhone(sendForm){
         return axios.post(apiPathList.checkWorkerPhone,{
             ...sendForm,
+        },{
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         })
     },
     login(username, password){
