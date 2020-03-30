@@ -10,7 +10,6 @@ export const joinService = {
      * 获取订单列表
      */
     createStaffBySeller(sendForm,accessToken){
-        debugger
         return axios.post(apiPathList.createStaffBySeller,{
             ...sendForm,
         },{

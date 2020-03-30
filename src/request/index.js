@@ -1,5 +1,5 @@
 
-window.apiRoot = '.'
+window.apiRoot = 'https://manage.sy365.cn'
 
 
 export const apiPathList = {
@@ -11,9 +11,22 @@ export const apiPathList = {
     getOrder: apiRoot + "/staff/order/getOrder",
 
     // 手机号查重
-    checkWorkerPhone: apiRoot + "/admin/staff/checkStaffPhone",
+    checkWorkerPhone: apiRoot + "/staff/common/checkStaffPhone",
     
     // 门店添加劳动者
     createStaffBySeller : apiRoot+"/admin/staff/createStaffBySeller",
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
