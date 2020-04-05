@@ -1,6 +1,6 @@
 
 window.apiRoot = 'https://manage.sy365.cn'
-
+window.staffh5Root = 'https://staffh5.sy365.cn'
 
 export const apiPathList = {
 
@@ -14,8 +14,10 @@ export const apiPathList = {
     checkWorkerPhone: apiRoot + "/staff/common/checkStaffPhone",
     
     // 门店添加劳动者
-    createStaffBySeller : apiRoot+"/admin/staff/createStaffBySeller",
-
+    createStaffBySeller : apiRoot+"/staff/common/applyStaff",
+    
+    //获取微信分享config信息
+    getWxShareConfig: staffh5Root +"/auth/getWxShareConfig.php"
 }
 
 

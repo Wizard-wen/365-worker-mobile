@@ -12,17 +12,11 @@ export const joinService = {
     createStaffBySeller(sendForm,accessToken){
         return axios.post(apiPathList.createStaffBySeller,{
             ...sendForm,
-        },{
-            headers: {accessToken: accessToken},
         })
     },
     checkWorkerPhone(sendForm){
         return axios.post(apiPathList.checkWorkerPhone,{
             ...sendForm,
-        },{
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
         })
     },
     login(username, password){
