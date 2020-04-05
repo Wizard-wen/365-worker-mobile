@@ -19,8 +19,8 @@ export const homeService = {
     getOrder(id){
         return axios.get(apiPathList.getOrder+"?id="+id)
     },
-    getWxShareConfig(){
-      return axios.get(apiPathList.getWxShareConfig)
+    getWxShareConfig(wechaturl){
+      return axios.get(apiPathList.getWxShareConfig+`?wechaturl=${wechaturl}`)
     }
 }
   

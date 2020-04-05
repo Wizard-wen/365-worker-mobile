@@ -1,7 +1,9 @@
 
 window.apiRoot = 'https://manage.sy365.cn'
-window.staffh5Root = 'https://staffh5.sy365.cn'
 
+// 上线前应当切换这个
+window.staffh5Root = 'https://staffh5.sy365.cn'
+window.staffh5TestRoot = '.'
 export const apiPathList = {
 
     //获取订单列表(懒加载) get {lastId,pageNumber}
@@ -17,7 +19,7 @@ export const apiPathList = {
     createStaffBySeller : apiRoot+"/staff/common/applyStaff",
     
     //获取微信分享config信息
-    getWxShareConfig: staffh5Root +"/auth/getWxShareConfig.php"
+    getWxShareConfig: staffh5TestRoot +"/auth/getWxShareConfig.php"
 }
 
 

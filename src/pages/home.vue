@@ -27,7 +27,8 @@
 
 
 import {homeService} from '@/service/index.js'
-
+// require('http://res.wx.qq.com/open/js/jweixin-1.6.0.js')  
+// console.log(wxx)
 export default {
     data(){
         return {
@@ -79,7 +80,12 @@ export default {
     },
     async mounted(){
         // await this.onLoad()
-        await homeService.getWxShareConfig().then(data =>{
+
+        let wechaturl = decodeURIComponent(window.location.href.split('#')[0]);
+        
+        console.log(wechaturl)
+
+        await homeService.getWxShareConfig(wechaturl).then(data =>{
             console.log(data)
               wx.config({
                     debug: true,
@@ -89,18 +95,48 @@ export default {
                     signature: data.data.signature,
                     jsApiList: [
                         // 所有要调用的 API 都要加到这个列表中
+                        'onMenuShareAppMessage','updateAppMessageShareData',
                     ]
                 });
                 wx.ready(function () {
-                    wx.updateAppMessageShareData({ 
+                    // 老版本
+                    wx.onMenuShareAppMessage({ 
                         title: '365订单', // 分享标题
                         desc: '365订单描述', // 分享描述
-                        link: 'https://staffh5.sy365.cn/#/homepage', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        // link: 'https://staffh5.sy365.cn/#/homepage', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        link: window.location.href,
                         imgUrl: 'https://staffh5.sy365.cn/icon.jpg', // 分享图标
                         success: function () {
-                        // 设置成功
+                            // 设置成功
+                            wx.checkJsApi({
+                                jsApiList: ['onMenuShareAppMessage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                                success: function(res) {
+                                    // 以键值对的形式返回，可用的api值true，不可用为false
+                                    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                                    alert(res)
+                                }
+                            })
                         }
                     })
+                    // // 新版本
+                    // wx.updateAppMessageShareData({ 
+                    //     title: '365订单', // 分享标题
+                    //     desc: '365订单描述', // 分享描述
+                    //     // link: 'https://staffh5.sy365.cn/#/homepage', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    //     link:window.location.href,
+                    //     imgUrl: 'https://staffh5.sy365.cn/icon.jpg', // 分享图标
+                    //     success: function () {
+                    //         // 设置成功
+                    //         wx.checkJsApi({
+                    //             jsApiList: ['updateAppMessageShareData'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                    //             success: function(res) {
+                    //                 // 以键值对的形式返回，可用的api值true，不可用为false
+                    //                 // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                    //                 alert(res)
+                    //             }
+                    //         })
+                    //     }
+                    // })
 
                 });
         })
