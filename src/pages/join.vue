@@ -32,6 +32,28 @@
                 label="个人信息"
                 :rules="[{ required: true, message: '请填写您的个人情况' }]"
                 placeholder="请输入您的个人情况"/>
+            <van-field name="radio" label="性别">
+                <template slot="input">
+                    <van-radio-group v-model="joinForm.sex" direction="horizontal">
+                        <van-radio :name="1">男</van-radio>
+                        <van-radio :name="2">女</van-radio>
+                    </van-radio-group>
+                </template>
+            </van-field> 
+            <van-field
+                v-model="joinForm.identify"
+                name="身份证号"
+                label="身份证号"
+                placeholder="请填写身份证号"/>
+            <van-field name="age" label="生日">
+                <template slot="input">
+                    <van-datetime-picker
+                        v-model="joinForm.birthday"
+                        type="date"
+                        :min-date="minDate"
+                        :max-date="maxDate"/>
+                </template>
+            </van-field> 
             <div style="margin: .5rem .1rem 0 .1rem;">
                 <van-button round block type="info" color="#ff7832" native-type="submit">
                     提交
@@ -58,9 +80,14 @@ export default {
             joinForm: {
                 name: '',
                 phone: '',
+                sex: 1,
+                identify: '',
+                birthday: new Date(),
                 id:0,
                 seller_remarks: '',
             },
+            minDate: new Date(2020, 0, 1),
+            maxDate: new Date(2025, 10, 1),
             phoneError: '',
             logo,
         }
