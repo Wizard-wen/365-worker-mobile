@@ -154,7 +154,7 @@
                     @cancel="isZodiac_signPopupShow = false"/>
             </van-popup>
             
-            <div style="margin: .5rem .1rem 0 .1rem;">
+            <div style="margin: .5rem .1rem 0.5rem .1rem;">
                 <van-button round block type="info" color="#ff7832" native-type="submit">
                     提交
                 </van-button>
