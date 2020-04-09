@@ -93,11 +93,11 @@
                 label="体重"
                 placeholder="请填写体重"/>
             
-            <van-field name="uploader" label="头像">
+            <!-- <van-field name="uploader" label="头像">
                 <template slot="input">
                     <van-uploader :after-read="uploadPicture" v-model="joinForm.icon" />
                 </template>
-            </van-field>
+            </van-field> -->
             
             <van-field
                 v-model="joinForm.address"
@@ -168,6 +168,9 @@ import {$utils} from '@/utils/index.js'
 import {educationList,zodiac_signList} from './join/Ijoin.js'
 
 import {joinService} from '@/service/join'
+import {homeService} from '@/service/index.js'
+import axios from 'axios'
+
 
 import { Notify } from 'vant';
 import { Toast } from 'vant';
@@ -182,6 +185,7 @@ export default {
     data(){
         return {
             joinForm: {
+                id: 0,
                 name: '',//姓名
                 phone: '',//电话
                 sex: 1,//性别
@@ -200,7 +204,7 @@ export default {
                 body_height: '',//身高
                 body_weight: '',
                 
-                icon:[],//头像
+                icon:'',//头像
 
                 address: '',//现住址
                 urgent_phone: '',//紧急联系人
@@ -298,13 +302,9 @@ export default {
             let sendForm ={
                 ...this.joinForm,
             } 
-            let accessToken = ''
-            await joinService.login('dev_songxiwen','dev_songxiwen').then(data =>{
-                accessToken = data.data.data.manager.access_token
-            })
             try{
                 Toast.loading('提交中...');
-                 await joinService.createStaffBySeller(sendForm,accessToken).then(data =>{
+                 await joinService.createStaffBySeller(sendForm).then(data =>{
                 
                     if(data.data.code == '0'){
                        Notify({ type: 'success', message: data.data.message });  
@@ -325,6 +325,46 @@ export default {
             }
            
         }
+    },
+    async mounted(){
+        let wechaturl = decodeURIComponent(window.location.href.split('#')[0]);
+        
+
+        await homeService.getWxShareConfig(wechaturl).then(data =>{
+
+            wx.config({
+                debug: false,
+                appId: data.data.appId,
+                timestamp: data.data.timestamp,
+                nonceStr: data.data.nonceStr,
+                signature: data.data.signature,
+                jsApiList: [
+                    // 所有要调用的 API 都要加到这个列表中
+                    'onMenuShareAppMessage','onMenuShareTimeline',
+                ]
+            });
+            wx.ready(function () {
+                // 老版本
+                wx.onMenuShareAppMessage({ 
+                    title: '365订单', // 分享标题
+                    desc: '365生活服务平台，竭诚为您服务', // 分享描述
+                    link: window.location.href,// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: 'https://staffh5.sy365.cn/icon.jpg', // 分享图标
+                    success: function () {
+                        Notify({ type: 'success', message: '分享成功' });  
+                    }
+                })
+                wx.onMenuShareTimeline({
+                    title: '365订单', // 分享标题
+                    desc: '365生活服务平台，竭诚为您服务', // 分享描述
+                    link: window.location.href,
+                    imgUrl: 'https://staffh5.sy365.cn/icon.jpg', // 分享图标
+                    success: function () {
+                        Notify({ type: 'success', message: '分享成功' });  
+                    }
+                })
+            });
+        })
     }
 }
 </script>
@@ -332,7 +372,7 @@ export default {
 <style scoped lang="scss">
 .logo-box{
     // height: 1.5rem;
-    padding: .6rem 0 .2rem 0;
+    padding: .6rem 0 0 0;
     width: 100%;
 }
 .form-item-style{

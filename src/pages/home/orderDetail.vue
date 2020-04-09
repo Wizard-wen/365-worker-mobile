@@ -64,6 +64,45 @@ export default {
     },
     async mounted(){
         await this.getOrder()
+
+        let wechaturl = decodeURIComponent(window.location.href.split('#')[0]);
+        
+
+        await homeService.getWxShareConfig(wechaturl).then(data =>{
+
+            wx.config({
+                debug: false,
+                appId: data.data.appId,
+                timestamp: data.data.timestamp,
+                nonceStr: data.data.nonceStr,
+                signature: data.data.signature,
+                jsApiList: [
+                    // 所有要调用的 API 都要加到这个列表中
+                    'onMenuShareAppMessage','onMenuShareTimeline',
+                ]
+            });
+            wx.ready(function () {
+                // 老版本
+                wx.onMenuShareAppMessage({ 
+                    title: '365订单', // 分享标题
+                    desc: '365生活服务平台，竭诚为您服务', // 分享描述
+                    link: window.location.href,// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: 'https://staffh5.sy365.cn/icon.jpg', // 分享图标
+                    success: function () {
+                        Notify({ type: 'success', message: '分享成功' });  
+                    }
+                })
+                wx.onMenuShareTimeline({
+                    title: '365订单', // 分享标题
+                    desc: '365生活服务平台，竭诚为您服务', // 分享描述
+                    link: window.location.href,
+                    imgUrl: 'https://staffh5.sy365.cn/icon.jpg', // 分享图标
+                    success: function () {
+                        Notify({ type: 'success', message: '分享成功' });  
+                    }
+                })
+            });
+        })
     }
 }
 </script>
