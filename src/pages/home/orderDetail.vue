@@ -29,7 +29,6 @@
         <a class="btn" :href="'tel:'+orderDetail.agent_manager_phone">立即接单</a>
     </div>
 </template>
-
 <script>
 import {homeService} from '@/service/index.js'
 import axios from 'axios'
@@ -84,8 +83,8 @@ export default {
             wx.ready(function () {
                 // 老版本
                 wx.onMenuShareAppMessage({ 
-                    title: '365订单', // 分享标题
-                    desc: '365生活服务平台，竭诚为您服务', // 分享描述
+                    title: '365生活服务平台', // 分享标题
+                    desc: `${orderDetail.work_type}`, // 分享描述
                     link: window.location.href,// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                     imgUrl: 'https://staffh5.sy365.cn/icon.jpg', // 分享图标
                     success: function () {
@@ -93,8 +92,8 @@ export default {
                     }
                 })
                 wx.onMenuShareTimeline({
-                    title: '365订单', // 分享标题
-                    desc: '365生活服务平台，竭诚为您服务', // 分享描述
+                    title: '365生活服务平台', // 分享标题
+                    desc: `${orderDetail.work_type}`, // 分享描述
                     link: window.location.href,
                     imgUrl: 'https://staffh5.sy365.cn/icon.jpg', // 分享图标
                     success: function () {

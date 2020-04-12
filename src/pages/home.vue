@@ -22,13 +22,12 @@
         </van-list>
     </div>
 </template>
-
 <script>
 
 
 import {homeService} from '@/service/index.js'
 // require('http://res.wx.qq.com/open/js/jweixin-1.6.0.js')  
-// console.log(wxx)
+// console.log(wx)
 export default {
     data(){
         return {
@@ -79,7 +78,6 @@ export default {
         }
     },
     async mounted(){
-        // await this.onLoad()
 
         let wechaturl = decodeURIComponent(window.location.href.split('#')[0]);
         
@@ -100,7 +98,7 @@ export default {
                 wx.ready(function () {
                     // 老版本
                     wx.onMenuShareAppMessage({ 
-                        title: '365订单', // 分享标题
+                        title: '365生活服务平台', // 分享标题
                         desc: '365生活服务平台，竭诚为您服务', // 分享描述
                         // link: 'https://staffh5.sy365.cn/#/homepage', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                         link: window.location.href,
@@ -138,7 +136,7 @@ export default {
                     //     }
                     // })
                     wx.onMenuShareTimeline({
-                        title: '365订单', // 分享标题
+                        title: '365生活服务平台', // 分享标题
                         desc: '365生活服务平台，竭诚为您服务', // 分享描述
                         link: window.location.href,
                         imgUrl: 'https://staffh5.sy365.cn/icon.jpg', // 分享图标
